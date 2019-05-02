@@ -18,7 +18,7 @@ export default ({ filial, excluir, alterar }) => {
     }
 
     return (
-        <table className='cadastro-table'>
+        <table className='table mt-4'>
             <thead>
                 <tr>
                     <th>Codigo</th>

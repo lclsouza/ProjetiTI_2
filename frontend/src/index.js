@@ -9,13 +9,6 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import * as serviceWorker from './serviceWorker';
 
 
-import './css/reset.css'
-import './css/base.css'
-import './css/menu.css'
-import './css/cadastro-form.css'
-import './css/cadastro-table.css'
-
-
 ReactDOM.render(
     <BrowserRouter>
         <App>
