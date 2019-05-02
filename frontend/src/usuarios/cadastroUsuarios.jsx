@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({ adicionar, handleInputChange, usuarios, listaFilial }) => (
+export default ({ adicionar, handleInputChange, usuarios, listaFilial, listaCCusto }) => (
     <form className='cadastro-form' onSubmit={adicionar}>
         <h1 className='title'>Cadastro de Usuários</h1>
         <div className='form-input'>
@@ -27,19 +27,29 @@ export default ({ adicionar, handleInputChange, usuarios, listaFilial }) => (
                 </option>
                 {listaFilial.map((x, indice) => (
                         <option key={indice}
+                                value = {x.codigoFilial}>
+                                {x.codigoFilial}
+                          </option>
+                    )
+                )}
+            </select>
+        </div>
+        <div className='form-input'>
+            <select id='cCustoUsuario' className='field'
+                onChange={handleInputChange}
+                name="cCustoUsuario"
+                value={usuarios.cCustoUsuario} >
+                <option value='' disabled>
+                    Escolha o Centro de Custo
+                </option>
+                {listaCCusto.map((x, indice) => (
+                        <option key={indice}
                                 value = {x.codigo}>
                                 {x.codigo}
                           </option>
                     )
                 )}
             </select>
-        </div>
-         <div className='form-input'>
-            <input id='cCustoUsuario' className='field'
-                placeholder='Nome do Centro de Custo'
-                onChange={handleInputChange}
-                name="cCustoUsuario"
-                value={usuarios.cCustoUsuario} />
         </div>
         <input type="submit" className='button' value='Salvar'/>
     </form>

@@ -6,7 +6,7 @@ import axios from 'axios'
 
 const URL = 'http://localhost:3003/usuarios'
 const URLFilial = 'http://localhost:3003/filial'
-// const URLCCusto = 'http://localhost:3003/ccusto'
+const URLCCusto = 'http://localhost:3003/ccusto'
 
 export default class AppUsuarios extends Component {
 
@@ -36,6 +36,19 @@ export default class AppUsuarios extends Component {
 
     refresh() {
 
+        // Carrega as filiais
+        axios.get(URLFilial)
+        .then(resp => resp.data.reduce((arrayAchatado, array) => 
+                 arrayAchatado.concat(array.filial), []))
+        .then(resp => this.carregaFilial(resp))
+
+        // Carrega os Centro de Custos
+        axios.get(URLCCusto)
+        .then(resp => resp.data.reduce((arrayAchatado, array) => 
+                 arrayAchatado.concat(array.ccusto), []))
+//        .then(resp => console.log(resp))
+        .then(resp => this.carregaCCusto(resp))
+
         axios.get(URL)
         .then(resp => this.setState({...this.state,
             usuarios: {
@@ -47,14 +60,15 @@ export default class AppUsuarios extends Component {
             },
              list: resp.data}))
 
-            axios.get(URLFilial)
-                .then(resp => resp.data.reduce((arrayAchatado, array) => 
-                         arrayAchatado.concat(array.filial), []))
-                .then(resp => this.carregaFilial(resp))
+            
     }
 
-     carregaFilial(resp) {
+    carregaFilial(resp) {
         this._listaFilial = resp
+    }
+
+    carregaCCusto(resp) {
+        this._listaCCusto = resp
     }
 
 
@@ -106,7 +120,8 @@ export default class AppUsuarios extends Component {
         axios.get(`${URL}/${usuariosReg._id}`)
             .then(resp => resp.data.reduce((arrayAchatado, array) => 
                 arrayAchatado.concat(array.usuarios)), [])
-            .then(resp => this.setState({...this.state, 
+            .then(resp => {
+                this.setState({...this.state, 
                     usuarios: {
                         loginUsuario: resp.usuarios.loginUsuario, 
                         nomeUsuario: resp.usuarios.nomeUsuario,
@@ -114,7 +129,9 @@ export default class AppUsuarios extends Component {
                         cCustoUsuario: resp.usuarios.cCustoUsuario,
                         id: resp._id  
                         }
-                }))       
+                })
+                window.scrollTo({top:0,behavior: 'smooth'})
+            })       
         }
 
     render() {
@@ -124,6 +141,7 @@ export default class AppUsuarios extends Component {
                                 handleInputChange={this.handleInputChange} 
                                 usuarios={this.state.usuarios}
                                 listaFilial={this._listaFilial}
+                                listaCCusto={this._listaCCusto}
                                 className="form"/>
                 {!!this.state.list && <ListaUsuarios usuarios={this.state.list} 
                              excluir={this.excluir}

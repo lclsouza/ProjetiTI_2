@@ -6,9 +6,9 @@ export default ({ ccusto, excluir, alterar }) => {
         return ccusto.map((filreg, index) => (
             
                 <tr key={index}>
-                    <td>{filreg.ccusto.codigo}</td>
+                    <td>{filreg.ccusto.codigoCCusto}</td>
                     <td>{filreg.ccusto.nomeCCusto}</td>
-                     <td>{filreg.ccusto.filial}</td>
+                     <td>{filreg.ccusto.filialCCusto}</td>
                     <td> 
                         <button onClick={() => excluir(filreg)}>Excluir</button> 
                         <button onClick={() => alterar(filreg)}>Alterar</button>

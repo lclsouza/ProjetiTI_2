@@ -5,11 +5,6 @@ export default ({ adicionar, handleInputChange, ccusto, listaFilial }) => (
     <form className='cadastro-form' onSubmit={adicionar}>
         <h1 className='title'>Cadastro de Centro de Custo</h1>
         <div className='form-input'>
-            {/* <input id='codigo' className='field'
-                placeholder='Codigo do Centro de Custo'
-                name="codigo"
-                onChange={handleInputChange}
-                value={ccusto.codigo} /> */}
              <InputCustomizado id="codigoCCusto" type="text" className='field' placeholder='Codigo do Centro de Custo' 
                 name="codigoCCusto" value={ccusto.codigoCCusto} onChange={handleInputChange}/>
         </div>
@@ -21,10 +16,10 @@ export default ({ adicionar, handleInputChange, ccusto, listaFilial }) => (
                 value={ccusto.nomeCCusto} />
         </div>
         <div className='form-input'>
-            <select id='filial' className='field'
+            <select id='filialCCusto' className='field'
                 placeholder='Escolha a filial'
                 onChange={handleInputChange}
-                name="filial"
+                name="filialCCusto"
                 value={ccusto.filialCCusto} >
                 <option value='' disabled>
                     Escolha a Filial

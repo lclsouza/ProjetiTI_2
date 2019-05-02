@@ -51,15 +51,6 @@ export default class AppCCusto extends Component {
 
     carregaFilial(resp) {
         this._listaFilial = resp
-        // this._listaFilial = [
-        //     {codigo: 'MVR', nomeFilial: 'MATRIZ VOLTA REDONDA'},
-        //     {codigo: 'FCB', nomeFilial: 'CUBATAO'},
-        //     {codigo: 'FPA', nomeFilial: 'FILIAL PORTO AÇU'},
-        //     {codigo: 'FBA', nomeFilial: 'FILIAL BAHIA'}
-        // ]
-        // console.log('resp:', resp)
-        // console.log('lista filial:', this._listaFilial)
-        // this._listaFilial.map(x => console.log(x.codigo, x.nomeFilial))
     }
 
     handleInputChange(e) {
@@ -79,7 +70,8 @@ export default class AppCCusto extends Component {
     adicionar() {
         const ccusto = this.state.ccusto
 
-        if (ccusto.codigo.length !== 0 || ccusto.nomeccusto.length !== 0) {
+        if (ccusto.codigoCCusto.length !== 0 || ccusto.nomeCCusto.length !== 0 ||
+            ccusto.filialCCusto.length !== 0 ) {
 
             if (ccusto.id.length === 0) {
                 axios.post(URL, { ccusto })
@@ -107,15 +99,19 @@ export default class AppCCusto extends Component {
         axios.get(`${URL}/${filreg._id}`)
             .then(resp => resp.data.reduce((arrayAchatado, array) => 
                 arrayAchatado.concat(array.ccusto)), [])
-            .then(resp => this.setState({...this.state, 
+            .then(resp => {
+                this.setState({...this.state, 
                     ccusto: {
-                        codigoCCusto: resp.ccusto.codigo, 
+                        codigoCCusto: resp.ccusto.codigoCCusto, 
                         nomeCCusto: resp.ccusto.nomeCCusto,  
-                        filialCCusto: resp.ccusto.filial,
+                        filialCCusto: resp.ccusto.filialCCusto,
                         id: resp._id  
                         }
-                }))       
-        }
+                
+                })
+                window.scrollTo({top:0,behavior: 'smooth'})
+            })       
+    }
 
     render() {
         return (
