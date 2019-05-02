@@ -19,7 +19,7 @@ export default ({ usuarios, excluir, alterar }) => {
     }
 
     return (
-        <table className='cadastro-table'>
+        <table className='table mt-4'>
             <thead>
                 <tr>
                     <th>Login Usuário</th>

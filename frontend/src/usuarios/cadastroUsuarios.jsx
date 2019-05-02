@@ -2,23 +2,28 @@ import React from 'react'
 
 export default ({ adicionar, handleInputChange, usuarios, listaFilial }) => (
     <form className='cadastro-form' onSubmit={adicionar}>
-        <h1 className='title'>Cadastro de Usuários</h1>
-        <div className='form-input'>
-            <input id='loginUsuario' className='field'
+        <h2 className='h2'>Cadastro de Usuários</h2>
+        <div className="input-group mb-3">
+        <input id='loginUsuario' className='form-control'
                 placeholder='Login do Usuário'
                 name="loginUsuario"
                 onChange={handleInputChange}
                 value={usuarios.loginUsuario} />
+            <div className="input-group-append" id="button-addon4">
+                <button className="btn btn-outline-secondary" type="button">Cadastrar</button>
+                <button className="btn btn-outline-secondary" type="button">Pesquisar</button>
+            </div>
         </div>
-        <div className='form-input'>
-            <input id='nomeUsuario' className='field'
+
+        <div className='form-group'>
+            <input id='nomeUsuario' className='form-control'
                 placeholder='Nome do usuario'
                 onChange={handleInputChange}
                 name="nomeUsuario"
                 value={usuarios.nomeUsuario} />
         </div>
-        <div className='form-input'>
-            <select id='filialUsuario' className='field'
+        <div className='form-group'>
+            <select id='filialUsuario' className='form-control'
                 onChange={handleInputChange}
                 name="filialUsuario"
                 value={usuarios.filialUsuario} >
@@ -34,14 +39,15 @@ export default ({ adicionar, handleInputChange, usuarios, listaFilial }) => (
                 )}
             </select>
         </div>
-         <div className='form-input'>
-            <input id='cCustoUsuario' className='field'
+         <div className='form-group'>
+            <input id='cCustoUsuario' className='form-control'
                 placeholder='Nome do Centro de Custo'
                 onChange={handleInputChange}
                 name="cCustoUsuario"
                 value={usuarios.cCustoUsuario} />
         </div>
-        <input type="submit" className='button' value='Salvar'/>
+        <input type="submit" className='btn btn-primary' value='Salvar'/>
+        <input type="submit" className='btn btn-primary ml-4' value='Voltar' />
     </form>
 )
 

@@ -2,26 +2,27 @@ import React from 'react'
 import InputCustomizado from '.././components/InputCustomizado'
 
 export default ({ adicionar, handleInputChange, ccusto, listaFilial }) => (
-    <form className='cadastro-form' onSubmit={adicionar}>
-        <h1 className='title'>Cadastro de Centro de Custo</h1>
-        <div className='form-input'>
-            {/* <input id='codigo' className='field'
-                placeholder='Codigo do Centro de Custo'
-                name="codigo"
-                onChange={handleInputChange}
-                value={ccusto.codigo} /> */}
-             <InputCustomizado id="codigoCCusto" type="text" className='field' placeholder='Codigo do Centro de Custo' 
+    <form onSubmit={adicionar}>
+        <h2 className='h2'>Cadastro de Centro de Custo</h2>
+
+        <div className="input-group mb-3">
+        <InputCustomizado id="codigoCCusto" type="text" className='form-control' placeholder='Codigo do Centro de Custo' 
                 name="codigoCCusto" value={ccusto.codigoCCusto} onChange={handleInputChange}/>
+            <div className="input-group-append" id="button-addon4">
+                <button className="btn btn-outline-secondary" type="button">Cadastrar</button>
+                <button className="btn btn-outline-secondary" type="button">Pesquisar</button>
+            </div>
         </div>
-        <div className='form-input'>
-            <input id='nomeCCusto' className='field'
+
+        <div className='form-group'>
+            <input id='nomeCCusto' className='form-control'
                 placeholder='Nome da Centro de Custo'
                 onChange={handleInputChange}
                 name="nomeCCusto"
                 value={ccusto.nomeCCusto} />
         </div>
-        <div className='form-input'>
-            <select id='filial' className='field'
+        <div className='form-group'>
+            <select id='filial' className='form-control'
                 placeholder='Escolha a filial'
                 onChange={handleInputChange}
                 name="filial"
@@ -39,7 +40,8 @@ export default ({ adicionar, handleInputChange, ccusto, listaFilial }) => (
             </select>
         </div>
         
-        <input type="submit" className='button' value='Salvar'/>
+        <input type="submit" className='btn btn-primary' value='Salvar'/>
+        <input type="submit" className='btn btn-primary ml-4' value='Voltar' />
     </form>
 )
 
