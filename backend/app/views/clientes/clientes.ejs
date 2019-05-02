@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Cadastro de clientes</h1>
+
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Celular</th>
+            <th>E-MAIL</th>
+        </tr>
+
+        <%clientes.forEach(clientes => { %>
+            <tr>
+                <td><%=clientes.nome%></td>
+                <td><%=clientes.celular%></td>
+                <td><%=clientes.email%></td>
+            </tr>
+        <%})%>
+    </table>
+</body>
+</html>

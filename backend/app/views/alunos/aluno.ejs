@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Alunos</h1>
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Bairro</th>
+            <th>Cidade</th>
+            <th>CEP</th>
+            <th>Celular</th>
+            <th>E-MAIL</th>
+        </tr>
+
+        <%alunos.forEach(alunos => { %>
+            <tr>
+                <td><%=alunos.nome%></td>
+                <td><%=alunos.bairro%></td>
+                <td><%=alunos.cidade%></td>
+                <td><%=alunos.cep%></td>
+                <td><%=alunos.celular%></td>
+                <td><%=alunos.email%></td>
+            </tr>
+            <%})%>
+    </table>
+</body>
+</html>

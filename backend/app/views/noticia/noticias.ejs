@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Todas as Noticias</h1>
+    <table>
+            <tr>
+                <th>Titulo</th>
+                <th>Noticia</th>
+                <th>Data Criação</th>
+            </tr>
+
+            <%noticias.forEach(noticia => { %>
+                <tr>
+                    <td><%=noticia.titulo%></td>
+                    <td><%=noticia.noticia%></td>
+                    <td><%=noticia.data_criacao%></td>
+                </tr>    
+            <%})%>
+    </table>
+</body>
+</html>
