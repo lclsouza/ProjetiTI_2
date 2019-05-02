@@ -11,7 +11,7 @@ export default ({ adicionar, handleInputChange, filial }) => (
                 onChange={handleInputChange}
                 value={filial.codigo} /> */}
             <InputCustomizado id="codigoFilial" type="text" className='field' placeholder='Codigo da Filial' 
-                name="codigoFilial" value={filial.codigoFilial} onChange={handleInputChange}/>
+                name="codigoFilial" value={filial.codigoFilial} onChange={handleInputChange} autoFocus/>
         </div>
         <div className='form-input'>
             <InputCustomizado id="nomeFilial" type="text" className='field' placeholder='Nome da Filial' 
@@ -21,6 +21,7 @@ export default ({ adicionar, handleInputChange, filial }) => (
             <InputCustomizado id="cnpjFilial" type="text" className='field' placeholder='CNPJ da Filial' 
                 name="cnpjFilial" value={filial.cnpjFilial} onChange={handleInputChange}/>
         </div>
+        <input type="submit" className='button' value='Salvar'/>
         <input type="submit" className='button' value='Salvar'/>
     </form>
 )

@@ -86,14 +86,17 @@ export default class AppFilial extends Component {
         axios.get(`${URL}/${filreg._id}`)
             .then(resp => resp.data.reduce((arrayAchatado, array) => 
                 arrayAchatado.concat(array.filial)), [])
-            .then(resp => this.setState({...this.state, 
+            .then(resp => {
+                this.setState({...this.state, 
                     filial: {
                         codigoFilial: resp.filial.codigoFilial, 
                         nomeFilial: resp.filial.nomeFilial,
                         cnpjFilial: resp.filial.cnpjFilial,
                         id: resp._id  
                         }
-                }))       
+                })
+                window.scrollTo({top:0,behavior: 'smooth'})
+            })       
         }
 
     render() {
