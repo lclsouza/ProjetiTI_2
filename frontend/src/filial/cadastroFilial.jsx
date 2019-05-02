@@ -22,7 +22,6 @@ export default ({ adicionar, handleInputChange, filial }) => (
                 name="cnpjFilial" value={filial.cnpjFilial} onChange={handleInputChange}/>
         </div>
         <input type="submit" className='button' value='Salvar'/>
-          <input type="submit" className='button' value='Voltar'/>
     </form>
 )
 
