@@ -10,7 +10,7 @@ export default ({ adicionar, handleInputChange, usuarios, listaFilial, listaCCus
                 onChange={handleInputChange}
                 value={usuarios.loginUsuario} />
             <div className="input-group-append" id="button-addon4">
-                <button className="btn btn-outline-secondary" type="button">Cadastrar</button>
+                {/* <button className="btn btn-outline-secondary" type="button">Cadastrar</button> */}
                 <button className="btn btn-outline-secondary" type="button">Pesquisar</button>
             </div>
         </div>
@@ -39,31 +39,9 @@ export default ({ adicionar, handleInputChange, usuarios, listaFilial, listaCCus
                 )}
             </select>
         </div>
-<<<<<<< HEAD
-        <div className='form-input'>
-            <select id='cCustoUsuario' className='field'
-=======
-         <div className='form-group'>
-            <input id='cCustoUsuario' className='form-control'
-                placeholder='Nome do Centro de Custo'
->>>>>>> 73d227b6b41a30f6e863b2b3aa197daceb92a2fd
-                onChange={handleInputChange}
-                name="cCustoUsuario"
-                value={usuarios.cCustoUsuario} >
-                <option value='' disabled>
-                    Escolha o Centro de Custo
-                </option>
-                {listaCCusto.map((x, indice) => (
-                        <option key={indice}
-                                value = {x.codigo}>
-                                {x.codigo}
-                          </option>
-                    )
-                )}
-            </select>
-        </div>
+        
         <input type="submit" className='btn btn-primary' value='Salvar'/>
-        <input type="submit" className='btn btn-primary ml-4' value='Voltar' />
+        <button type="button" className='btn btn-primary ml-4'>Voltar</button>
     </form>
 )
 

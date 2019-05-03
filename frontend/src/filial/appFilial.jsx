@@ -24,19 +24,21 @@ export default class AppFilial extends Component {
         this.adicionar = this.adicionar.bind(this)
         this.excluir = this.excluir.bind(this)
         this.alterar = this.alterar.bind(this)
-        this.refresh()
+        this.handleClear = this.handleClear.bind(this)
+        this.handleClear()
     }
 
-    refresh() {
+    refresh(filial) {
 
         axios.get(URL)
             .then(resp => this.setState({...this.state,
-                 filial: {
-                    codigoFilial: '',
-                    nomeFilial: '',
-                    cnpjFilial: '',
-                    id: ''
-                },
+                filial,
+                //  filial: {
+                //     codigoFilial: '',
+                //     nomeFilial: '',
+                //     cnpjFilial: '',
+                //     id: ''
+                // },
               list: resp.data}))
     }
 
@@ -55,17 +57,21 @@ export default class AppFilial extends Component {
 
     }
 
-    adicionar() {
+    adicionar(e) {
+        e.preventDefault()
+
         const filial = this.state.filial
 
         if (filial.codigoFilial.length !== 0 || filial.nomeFilial.length !== 0) {
 
             if (filial.id.length === 0) {
                 axios.post(URL, { filial })
-                   .then(resp => this.refresh())
+   //                .then(resp => this.refresh())
+                     .then(resp => this.handleClear())
             } else {
                 axios.put(URL, { filial })
-                  .then(resp => this.refresh())
+    //              .then(resp => this.refresh())
+                    .then(resp => this.handleClear())
             }
         } else {
             alert('Preencher os campos do formulário')
@@ -76,7 +82,8 @@ export default class AppFilial extends Component {
 
         if (window.confirm('Tem Certeza (S/N)')) {
             axios.delete(`${URL}/${filreg._id}`)
-                .then(resp => this.refresh())
+  //              .then(resp => this.refresh())
+                  .then(resp => this.handleClear())
            
         }
     }
@@ -97,7 +104,17 @@ export default class AppFilial extends Component {
                 })
                 window.scrollTo({top:0,behavior: 'smooth'})
             })       
+    }
+
+    handleClear() {
+        let filial = {
+            codigoFilial: '',
+            nomeFilial: '',
+            cnpjFilial: '',
+            id: ''
         }
+        this.refresh(filial)
+    }
 
     render() {
         return (
@@ -105,6 +122,7 @@ export default class AppFilial extends Component {
                 <CadastroFilial adicionar={this.adicionar} 
                                 handleInputChange={this.handleInputChange} 
                                 filial={this.state.filial}
+                                handleClear={this.handleClear}
                                 className="form"/>
                 {!!this.state.list && <ListaFilial filial={this.state.list} 
                              excluir={this.excluir}
