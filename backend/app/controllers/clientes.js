@@ -28,7 +28,7 @@ module.exports.alterarClientesPorID = (app, req, res) => {
     connection = new app.config.DBConnection();
     clientesDAO = new app.models.ClientesDAO(connection)
     const dados = req.body
-    const id = dados.clientes.id
+    const id = req.params.id
     clientesDAO.alterarClientesPorID(id, dados, (error, result) => {
         return result ? res.json(result) : res.json(error)    
     })
