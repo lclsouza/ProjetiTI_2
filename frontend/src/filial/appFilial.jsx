@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import CadastroFilial from './cadastroFilial'
 import ListaFilial from './listaFilial'
+import { Mensagem } from '../utils/util'
 
 import axios from 'axios'
 
@@ -15,32 +16,40 @@ export default class AppFilial extends Component {
                 codigoFilial: '',
                 nomeFilial: '',
                 cnpjFilial: '',
-                id: ''
             },
             list: []
         }
 
         this.handleInputChange = this.handleInputChange.bind(this)
-        this.adicionar = this.adicionar.bind(this)
-        this.excluir = this.excluir.bind(this)
-        this.alterar = this.alterar.bind(this)
+        this.handleAdd = this.handleAdd.bind(this)
+        this.handleDelete = this.handleDelete.bind(this)
+        this.handleChange = this.handleChange.bind(this)
         this.handleClear = this.handleClear.bind(this)
-        this.handleClear()
+        this.handleSearch = this.handleSearch.bind(this)
+        this._id = ''
+        this.refresh()
     }
 
-    refresh(filial) {
+    refresh(filial='') {
 
-        axios.get(URL)
-            .then(resp => this.setState({...this.state,
-                filial,
-                //  filial: {
-                //     codigoFilial: '',
-                //     nomeFilial: '',
-                //     cnpjFilial: '',
-                //     id: ''
-                // },
-              list: resp.data}))
+        let regex = new RegExp(filial, 'i')
+        if (filial.length > 0) {
+            axios.get(`${URL}`)
+                .then(resp => resp.data.filter(c => c.filial.codigoFilial.match(regex)))
+                .then(resp => this.setState({...this.state, list: resp}))
+                Mensagem('Filial filtrada !!')
+        } else { 
+            axios.get(`${URL}`)
+                .then(resp => this.setState({...this.state,
+                    filial: {
+                        codigoFilial: '',
+                        nomeFilial: '',
+                        cnpjFilial: '',
+                    },
+                    list: resp.data
+        }))}
     }
+
 
     handleInputChange(e) {
 
@@ -57,76 +66,69 @@ export default class AppFilial extends Component {
 
     }
 
-    adicionar(e) {
+    handleAdd(e) {
         e.preventDefault()
 
         const filial = this.state.filial
 
-        if (filial.codigoFilial.length !== 0 || filial.nomeFilial.length !== 0) {
+        if (filial.codigoFilial !== 0 || filial.nomeFilial !== 0) {
 
-            if (filial.id.length === 0) {
+            if (this._id.length === 0) {
                 axios.post(URL, { filial })
-   //                .then(resp => this.refresh())
-                     .then(resp => this.handleClear())
+                   .then(resp => this.refresh())
             } else {
-                axios.put(URL, { filial })
-    //              .then(resp => this.refresh())
-                    .then(resp => this.handleClear())
+                axios.put(`${URL}/${this._id}`, { filial })
+                   .then(resp => {
+                       this._id = ''
+                       this.refresh()
+                       Mensagem('Filial alterada com sucesso !!!')
+                })
             }
         } else {
-            alert('Preencher os campos do formulário')
+            Mensagem('Preencher os campos do formulário')
         }
     }
 
-    excluir(filreg) {
+    handleDelete(filreg) {
 
         if (window.confirm('Tem Certeza (S/N)')) {
             axios.delete(`${URL}/${filreg._id}`)
-  //              .then(resp => this.refresh())
-                  .then(resp => this.handleClear())
-           
+                window.scrollTo({top:0,behavior: 'smooth'})
+                this.refresh()
+                Mensagem('Filial excluída com sucesso !!!')
         }
     }
 
-    alterar(filreg) {
+    handleChange(filReg) {
 
-        axios.get(`${URL}/${filreg._id}`)
-            .then(resp => resp.data.reduce((arrayAchatado, array) => 
-                arrayAchatado.concat(array.filial)), [])
-            .then(resp => {
-                this.setState({...this.state, 
-                    filial: {
-                        codigoFilial: resp.filial.codigoFilial, 
-                        nomeFilial: resp.filial.nomeFilial,
-                        cnpjFilial: resp.filial.cnpjFilial,
-                        id: resp._id  
-                        }
-                })
-                window.scrollTo({top:0,behavior: 'smooth'})
-            })       
+        this._id = filReg._id
+        axios.get(`${URL}/${this._id}`)
+            .then(resp => this.setState({...this.state, 
+                    filial: resp.data[0].filial}))
+        window.scrollTo({top:0,behavior: 'smooth'})
+    }
+
+    handleSearch() {
+        this.refresh(this.state.filial.codigoFilial)
     }
 
     handleClear() {
-        let filial = {
-            codigoFilial: '',
-            nomeFilial: '',
-            cnpjFilial: '',
-            id: ''
-        }
-        this.refresh(filial)
+        Mensagem()
+        this.refresh()
     }
 
     render() {
         return (
             <div>
-                <CadastroFilial adicionar={this.adicionar} 
+                <CadastroFilial handleAdd={this.handleAdd} 
                                 handleInputChange={this.handleInputChange} 
                                 filial={this.state.filial}
                                 handleClear={this.handleClear}
+                                handleSearch={this.handleSearch}
                                 className="form"/>
                 {!!this.state.list && <ListaFilial filial={this.state.list} 
-                             excluir={this.excluir}
-                             alterar={this.alterar}
+                             handleDelete={this.handleDelete}
+                             handleChange={this.handleChange}
                     />}
                
             </div>

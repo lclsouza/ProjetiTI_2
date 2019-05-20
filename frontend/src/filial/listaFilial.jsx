@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({ filial, excluir, alterar }) => {
+export default ({ filial, handleDelete, handleChange }) => {
 
     const renderRows = () => {
         return filial.map((filreg, index) => (
@@ -10,8 +10,8 @@ export default ({ filial, excluir, alterar }) => {
                     <td>{filreg.filial.nomeFilial}</td>
                     <td>{filreg.filial.cnpjFilial}</td>
                     <td> 
-                        <button onClick={() => excluir(filreg)}>Excluir</button> 
-                        <button onClick={() => alterar(filreg)}>Alterar</button>
+                        <button onClick={() => handleDelete(filreg)}>Excluir</button> 
+                        <button onClick={() => handleChange(filreg)}>Alterar</button>
                     </td>
                 </tr>
            ))

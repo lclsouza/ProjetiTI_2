@@ -12,7 +12,7 @@ module.exports = (app) => {
         app.controllers.filial.listarFilialPorID(app,req,res)
     })
 
-    app.put('/filial', (req, res) => {
+    app.put('/filial/:id', (req, res) => {
         app.controllers.filial.alterarFilialPorID(app,req,res)
     })
 

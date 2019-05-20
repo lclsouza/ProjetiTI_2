@@ -28,7 +28,8 @@ module.exports.alterarFilialPorID = (app, req, res) => {
     connection = new app.config.DBConnection();
     filialDAO = new app.models.FilialDAO(connection)
     const dados = req.body
-    const id = dados.filial.id
+    const id = req.params.id
+    console.log(id, dados)
     filialDAO.alterarFilialPorID(id, dados, (error, result) => {
         return result ? res.json(result) : res.json(error)    
     })

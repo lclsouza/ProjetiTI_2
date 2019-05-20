@@ -1,21 +1,24 @@
 import React from 'react'
 import InputCustomizado from '.././components/InputCustomizado'
 
-export default ({ adicionar, handleInputChange, filial, handleClear }) => (
-    <form onSubmit={adicionar}>
+export default ({ handleAdd, handleInputChange, filial, handleClear, handleSearch }) => (
+    <form onSubmit={handleAdd}>
         <h2 className='h2'>Cadastro de Filiais</h2>
-        {/* <input id='codigo' className='form-control'
-                placeholder='Codigo da Filial'
-                name="codigo"
-                onChange={handleInputChange}
-                value={filial.codigo} /> */}
-
+        <div id='mensagemView'></div>
+    
         <div className="input-group mb-3">
+    
             <InputCustomizado id="codigoFilial" type="text" className='form-control' placeholder='Codigo da Filial'
                 name="codigoFilial" value={filial.codigoFilial} onChange={handleInputChange} />
             <div className="input-group-append" id="button-addon4">
                 {/* <button className="btn btn-outline-secondary" type="button">Cadastrar</button> */}
-                <button className="btn btn-outline-secondary" type="button">Pesquisar</button>
+                <button className="btn btn-outline-secondary" type="button" 
+                            tabIndex='-1' onClick={handleSearch}>Pesquisar</button>
+            </div>
+            <div className="input-group-append" id="button-addon4">
+                {/* <button className="btn btn-outline-secondary" type="button">Cadastrar</button> */}
+                <button className="btn btn-outline-secondary" type="button" 
+                            tabIndex='-1' onClick={handleClear}>Limpa Pesquisa</button>
             </div>
         </div>
 
