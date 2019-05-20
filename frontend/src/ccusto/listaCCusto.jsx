@@ -1,17 +1,17 @@
 import React from 'react'
 
-export default ({ ccusto, excluir, alterar }) => {
+export default ({ ccusto, handleDelete, handleChange }) => {
 
     const renderRows = () => {
-        return ccusto.map((filreg, index) => (
+        return ccusto.map((ccustoReg, index) => (
             
                 <tr key={index}>
-                    <td>{filreg.ccusto.codigoCCusto}</td>
-                    <td>{filreg.ccusto.nomeCCusto}</td>
-                     <td>{filreg.ccusto.filialCCusto}</td>
+                    <td>{ccustoReg.ccusto.codigoCCusto}</td>
+                    <td>{ccustoReg.ccusto.nomeCCusto}</td>
+                     <td>{ccustoReg.ccusto.filialCCusto}</td>
                     <td> 
-                        <button onClick={() => excluir(filreg)}>Excluir</button> 
-                        <button onClick={() => alterar(filreg)}>Alterar</button>
+                        <button onClick={() => handleDelete(ccustoReg)}>Excluir</button> 
+                        <button onClick={() => handleChange(ccustoReg)}>Alterar</button>
                     </td>
                 </tr>
            ))

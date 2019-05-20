@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import CadastroCCusto from './cadastroCCusto'
 import ListaCCusto from './listaCCusto'
+import { Mensagem } from '../utils/util'
 
 import axios from 'axios'
 
-const URL = 'http://localhost:3003/ccusto'
+const URLCCusto = 'http://localhost:3003/ccusto'
 const URLFilial = 'http://localhost:3003/filial'
 
 export default class AppCCusto extends Component {
@@ -16,36 +17,46 @@ export default class AppCCusto extends Component {
                 codigoCCusto: '',
                 nomeCCusto: '',
                 filialCCusto: '',
-                id: ''
             },
             list: []
         }
 
         this.handleInputChange = this.handleInputChange.bind(this)
-        this.adicionar = this.adicionar.bind(this)
-        this.excluir = this.excluir.bind(this)
-        this.alterar = this.alterar.bind(this)
+        this.handleAdd = this.handleAdd.bind(this)
+        this.handleDelete = this.handleDelete.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSearch = this.handleSearch.bind(this)
+        this.handleClear = this.handleClear.bind(this)
+        this._id = ''        
         this._listaFilial = []
-
         this.refresh()
     }
 
-    refresh() {
+    refresh(codigo_ccusto='') {
        
-         axios.get(URLFilial)
-             .then(resp => resp.data.reduce((arrayAchatado, array) => 
-                         arrayAchatado.concat(array.filial), []))
-             .then(resp => this.carregaFilial(resp)) 
+        console.log(codigo_ccusto)
+        let regex = new RegExp(codigo_ccusto, 'i')
 
-        axios.get(URL)
-        .then(resp => this.setState({...this.state,
-            ccusto: {
-                codigoCCusto: '',
-                nomeCCusto: '',
-                filialCCusto: '',
-                id: ''
-            },
-             list: resp.data}))
+        if (codigo_ccusto.length > 0) {
+            axios.get(`${URLCCusto}`)
+                .then(resp => resp.data.filter(c => c.ccusto.codigoCCusto.match(regex)))
+                .then(resp => this.setState({...this.state, list: resp}))
+                Mensagem('Centro de Custo filtrado !!')
+        } else {
+            axios.get(URLCCusto)
+            .then(resp => this.setState({...this.state,
+                ccusto: {
+                    codigoCCusto: '',
+                    nomeCCusto: '',
+                    filialCCusto: '',
+                },
+                 list: resp.data}))
+        }            
+
+        axios.get(URLFilial)
+        .then(resp => resp.data.reduce((arrayAchatado, array) => 
+                    arrayAchatado.concat(array.filial), []))
+        .then(resp => this.carregaFilial(resp)) 
 
     }
 
@@ -67,63 +78,82 @@ export default class AppCCusto extends Component {
 
     }
 
-    adicionar() {
+    handleAdd(e) {
+        e.preventDefault()
+
         const ccusto = this.state.ccusto
 
         if (ccusto.codigoCCusto.length !== 0 || ccusto.nomeCCusto.length !== 0 ||
             ccusto.filialCCusto.length !== 0 ) {
+            
+            if (this._id.length === 0) {
 
-            if (ccusto.id.length === 0) {
-                axios.post(URL, { ccusto })
-                   .then(resp => this.refresh())
+                axios.post(URLCCusto, { ccusto })
+                    .then(resp => {
+                        window.scrollTo({top:0,behavior: 'smooth'})
+                        this.refresh()
+                        Mensagem('Centro de Custo adicionado com sucesso !!!')
+                    })
             } else {
-                axios.put(URL, { ccusto })
-                  .then(resp => this.refresh())
-            }
+                axios.put(`${URLCCusto}/${this._id}`, { ccusto })
+                        .then(resp => {
+                            this._id = ''
+                            this.refresh(this.state.ccusto.codigoCCusto)
+                            Mensagem('Centro de Custo alterado com sucesso e filtro habilitado !!!')
+                        })
+            }   
         } else {
-            alert('Preencher os campos do formulário')
+            Mensagem('Preencher os campos do formulário')
         }
     }
 
-    excluir(filreg) {
+    handleDelete(ccustoReg) {
 
         if (window.confirm('Tem Certeza (S/N)')) {
-            axios.delete(`${URL}/${filreg._id}`)
-              .then(resp => this.refresh())
+            axios.delete(`${URLCCusto}/${ccustoReg._id}`)
+            .then(resp => {
+                window.scrollTo({top:0,behavior: 'smooth'})
+                this.refresh()
+                Mensagem('Centro de Custo excluído com sucesso !!!')
+            })
            
         }
     }
 
-    alterar(filreg) {
+    handleChange(ccustoReg) {
 
-        axios.get(`${URL}/${filreg._id}`)
-            .then(resp => resp.data.reduce((arrayAchatado, array) => 
-                arrayAchatado.concat(array.ccusto)), [])
-            .then(resp => {
-                this.setState({...this.state, 
-                    ccusto: {
-                        codigoCCusto: resp.ccusto.codigoCCusto, 
-                        nomeCCusto: resp.ccusto.nomeCCusto,  
-                        filialCCusto: resp.ccusto.filialCCusto,
-                        id: resp._id  
-                        }
-                
-                })
-                window.scrollTo({top:0,behavior: 'smooth'})
-            })       
+        this._id = ccustoReg._id
+        axios.get(`${URLCCusto}/${ccustoReg._id}`)
+            .then(resp => this.setState({...this.state, 
+                    ccusto: resp.data[0].ccusto}))
+        window.scrollTo({top:0,behavior: 'smooth'})
+
     }
+
+    handleSearch() {
+ //       console.log(this.state.ccusto.codigoCCusto)
+        this.refresh(this.state.ccusto.codigoCCusto)
+    }
+
+    handleClear() {
+        Mensagem()
+        this.refresh()
+    }
+
 
     render() {
         return (
             <div>
-                <CadastroCCusto adicionar={this.adicionar} 
+                <CadastroCCusto handleAdd={this.handleAdd} 
                                 handleInputChange={this.handleInputChange} 
                                 ccusto={this.state.ccusto}
+                                handleSearch={this.handleSearch}
+                                handleClear={this.handleClear}                                
                                 listaFilial={this._listaFilial}
                                 className="form"/>
                 {!!this.state.list && <ListaCCusto ccusto={this.state.list} 
-                             excluir={this.excluir}
-                             alterar={this.alterar}
+                             handleDelete={this.handleDelete}
+                             handleChange={this.handleChange}
                              />}
             </div>
         )

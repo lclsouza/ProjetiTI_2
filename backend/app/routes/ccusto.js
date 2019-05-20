@@ -12,7 +12,7 @@ module.exports = (app) => {
         app.controllers.ccusto.listarCCustoPorID(app,req,res)
     })
 
-    app.put('/ccusto', (req, res) => {
+    app.put('/ccusto/:id', (req, res) => {
         app.controllers.ccusto.alterarCCustoPorID(app,req,res)
     })
 

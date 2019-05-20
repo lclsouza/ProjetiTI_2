@@ -28,7 +28,7 @@ module.exports.alterarCCustoPorID = (app, req, res) => {
     connection = new app.config.DBConnection();
     ccustoDAO = new app.models.CCustoDAO(connection)
     const dados = req.body
-    const id = dados.ccusto.id
+    const id = req.params.id
     ccustoDAO.alterarCCustoPorID(id, dados, (error, result) => {
         return result ? res.json(result) : res.json(error)    
     })
