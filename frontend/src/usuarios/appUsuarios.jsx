@@ -19,7 +19,6 @@ export default class AppUsuarios extends Component {
                 nomeUsuario: '',
                 filialUsuario: '',
                 cCustoUsuario: '',
-                id: ''
             },
             list: []
         }
@@ -53,7 +52,7 @@ export default class AppUsuarios extends Component {
 
         let regex = new RegExp(loginUsuario, 'i')
 
-        if (logionUsuario.length > 0) {
+        if (loginUsuario.length > 0) {
             axios.get(`${URLUsuarios}`)
                 .then(resp => resp.data.filter(c => c.usuarios.loginUsuario.match(regex)))
                 .then(resp => this.setState({...this.state, list: resp}))
@@ -110,12 +109,12 @@ export default class AppUsuarios extends Component {
                 axios.put(URLUsuarios, { usuarios })
                     .then(resp => {
                         this._id = ''
-                        this.refresh(this.state.usuario.loginUsuario)
+                        this.refresh(this.state.usuarios.loginUsuario)
                         Mensagem('Usuário alterado com sucesso e filtro habilitado !!!')
                     })
             }
         } else {
-            alert('Preencher os campos do formulário')
+            Mensagem('Preencher os campos do formulário')
         }
     }
 
@@ -134,16 +133,16 @@ export default class AppUsuarios extends Component {
     handleChange(usuariosReg) {
 
         
-        this._id = cliReg._id
+        this._id = usuariosReg._id
         axios.get(`${URLUsuarios}/${this._id}`)
             .then(resp => this.setState({...this.state, 
-                    cliente: resp.data[0].usuarios}))
+                    usuarios: resp.data[0].usuarios}))
         window.scrollTo({top:0,behavior: 'smooth'})
     
     }
 
     handleSearch() {
-        this.refresh(this.state.cliente.cliente)
+        this.refresh(this.state.usuarios.loginUsuario)
     }
 
     handleClear() {
@@ -162,8 +161,7 @@ export default class AppUsuarios extends Component {
                                 listaCCusto={this._listaCCusto}
                                 className="form"
                                 handleSearch={this.handleSearch}
-                                handleClear={this.handleClear}
-                                />
+                                handleClear={this.handleClear} />
                 {!!this.state.list && <ListaUsuarios usuarios={this.state.list} 
                              handleDelete={this.handleDelete}
                              handleChange={this.handleChange} />}

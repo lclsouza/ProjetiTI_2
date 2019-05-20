@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({ usuarios, excluir, alterar }) => {
+export default ({ usuarios, handleDelete, handleChange }) => {
 
     const renderRows = () => {
         return usuarios.map((usuariosReg, index) => (
@@ -11,8 +11,8 @@ export default ({ usuarios, excluir, alterar }) => {
                     <td>{usuariosReg.usuarios.filialUsuario}</td>
                      <td>{usuariosReg.usuarios.cCustoUsuario}</td>
                     <td> 
-                        <button onClick={() => excluir(usuariosReg)}>Excluir</button> 
-                        <button onClick={() => alterar(usuariosReg)}>Alterar</button>
+                        <button onClick={() => handleDelete(usuariosReg)}>Excluir</button> 
+                        <button onClick={() => handleChange(usuariosReg)}>Alterar</button>
                     </td>
                 </tr>
            ))
