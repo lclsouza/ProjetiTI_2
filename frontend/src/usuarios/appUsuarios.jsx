@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import CadastroUsuarios from './cadastroUsuarios'
 import ListaUsuarios from './listaUsuarios'
+import { Mensagem } from '../utils/util'
 
 import axios from 'axios'
 
-const URL = 'http://localhost:3003/usuarios'
+const URLUsuarios = 'http://localhost:3003/usuarios'
 const URLFilial = 'http://localhost:3003/filial'
 const URLCCusto = 'http://localhost:3003/ccusto'
 
@@ -24,17 +25,19 @@ export default class AppUsuarios extends Component {
         }
 
         this.handleInputChange = this.handleInputChange.bind(this)
-        this.adicionar = this.adicionar.bind(this)
-        this.excluir = this.excluir.bind(this)
-        this.alterar = this.alterar.bind(this)
-
+        this.handleAdd = this.handleAdd.bind(this)
+        this.handleDelete = this.handleDelete.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSearch = this.handleSearch.bind(this)
+        this.handleClear = this.handleClear.bind(this)
+        this._id = ''        
         this._listaFilial = []
         this._listaCCusto = []
 
         this.refresh()
     }
 
-    refresh() {
+    refresh(loginUsuario='') {
 
         // Carrega as filiais
         axios.get(URLFilial)
@@ -46,21 +49,27 @@ export default class AppUsuarios extends Component {
         axios.get(URLCCusto)
         .then(resp => resp.data.reduce((arrayAchatado, array) => 
                  arrayAchatado.concat(array.ccusto), []))
-//        .then(resp => console.log(resp))
         .then(resp => this.carregaCCusto(resp))
 
-        axios.get(URL)
-        .then(resp => this.setState({...this.state,
-            usuarios: {
-                loginUsuario: '',
-                nomeUsuario: '',
-                filialUsuario: '',
-                cCustoUsuario: '',
-                id: ''
-            },
-             list: resp.data}))
+        let regex = new RegExp(loginUsuario, 'i')
 
-            
+        if (logionUsuario.length > 0) {
+            axios.get(`${URLUsuarios}`)
+                .then(resp => resp.data.filter(c => c.usuarios.loginUsuario.match(regex)))
+                .then(resp => this.setState({...this.state, list: resp}))
+                Mensagem('Usuário filtrado !!')
+        } else {        
+            axios.get(URLUsuarios)
+            .then(resp => this.setState({...this.state,
+                usuarios: {
+                    loginUsuario: '',
+                    nomeUsuario: '',
+                    filialUsuario: '',
+                    cCustoUsuario: '',
+                    id: ''
+                },
+                list: resp.data}))
+        }
     }
 
     carregaFilial(resp) {
@@ -70,7 +79,6 @@ export default class AppUsuarios extends Component {
     carregaCCusto(resp) {
         this._listaCCusto = resp
     }
-
 
     handleInputChange(e) {
 
@@ -86,66 +94,79 @@ export default class AppUsuarios extends Component {
 
     }
 
-    adicionar() {
+    handleAdd(e) {
+        e.preventDefault()
         const usuarios = this.state.usuarios
-        console.log(usuarios)
 
         if (usuarios.loginUsuario.length !== 0 || usuarios.nomeUsuario.length !== 0 ||
             usuarios.filialUsuario.length !== 0 || usuarios.cCustoUsuario.length !== 0) {
 
-            if (usuarios.id.length === 0) {
-                axios.post(URL, { usuarios})
-                    .then(resp => console.log('gravou'))
-                    // .then(resp => this.refresh())
+            if (this._id.length === 0) {
+                axios.post(URLUsuarios, { usuarios})
+                    window.scrollTo({top:0,behavior: 'smooth'})
+                    this.refresh()
+                    Mensagem('Usuário adicionado com sucesso !!!')
             } else {
-                axios.put(URL, { usuarios })
-                  .then(resp => this.refresh())
+                axios.put(URLUsuarios, { usuarios })
+                    .then(resp => {
+                        this._id = ''
+                        this.refresh(this.state.usuario.loginUsuario)
+                        Mensagem('Usuário alterado com sucesso e filtro habilitado !!!')
+                    })
             }
         } else {
             alert('Preencher os campos do formulário')
         }
     }
 
-    excluir(usuariosReg) {
+    handleDelete(usuariosReg) {
 
         if (window.confirm('Tem Certeza (S/N)')) {
-            axios.delete(`${URL}/${usuariosReg._id}`)
-                .then(resp => this.refresh())
-           
+            axios.delete(`${URLUsuarios}/${usuariosReg._id}`)
+            .then(resp => {
+                window.scrollTo({top:0,behavior: 'smooth'})
+                this.refresh()
+                Mensagem('Usuário excluído com sucesso !!!')
+            })
         }
     }
 
-    alterar(usuariosReg) {
+    handleChange(usuariosReg) {
 
-        axios.get(`${URL}/${usuariosReg._id}`)
-            .then(resp => resp.data.reduce((arrayAchatado, array) => 
-                arrayAchatado.concat(array.usuarios)), [])
-            .then(resp => {
-                this.setState({...this.state, 
-                    usuarios: {
-                        loginUsuario: resp.usuarios.loginUsuario, 
-                        nomeUsuario: resp.usuarios.nomeUsuario,
-                        filialUsuario: resp.usuarios.filialUsuario,
-                        cCustoUsuario: resp.usuarios.cCustoUsuario,
-                        id: resp._id  
-                        }
-                })
-                window.scrollTo({top:0,behavior: 'smooth'})
-            })       
-        }
+        
+        this._id = cliReg._id
+        axios.get(`${URLUsuarios}/${this._id}`)
+            .then(resp => this.setState({...this.state, 
+                    cliente: resp.data[0].usuarios}))
+        window.scrollTo({top:0,behavior: 'smooth'})
+    
+    }
+
+    handleSearch() {
+        this.refresh(this.state.cliente.cliente)
+    }
+
+    handleClear() {
+        Mensagem()
+        this.refresh()
+    }
+
 
     render() {
         return (
             <div>
-                <CadastroUsuarios adicionar={this.adicionar} 
+                <CadastroUsuarios handleAdd={this.handleAdd} 
                                 handleInputChange={this.handleInputChange} 
                                 usuarios={this.state.usuarios}
                                 listaFilial={this._listaFilial}
                                 listaCCusto={this._listaCCusto}
-                                className="form"/>
+                                className="form"
+                                handleSearch={this.handleSearch}
+                                handleClear={this.handleClear}
+                                />
                 {!!this.state.list && <ListaUsuarios usuarios={this.state.list} 
-                             excluir={this.excluir}
-                             alterar={this.alterar} />}
+                             handleDelete={this.handleDelete}
+                             handleChange={this.handleChange} />}
             </div>
         )
     }

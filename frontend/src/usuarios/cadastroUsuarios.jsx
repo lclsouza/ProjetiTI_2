@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default ({ adicionar, handleInputChange, usuarios, listaFilial, listaCCusto }) => (
-    <form className='cadastro-form' onSubmit={adicionar}>
+export default ({ handleAdd, handleInputChange, usuarios, listaFilial, listaCCusto, handleSearch, handleClear }) => (
+    <form className='cadastro-form' onSubmit={handleAdd}>
         <h2 className='h2'>Cadastro de Usuários</h2>
         <div className="input-group mb-3">
         <input id='loginUsuario' className='form-control'
@@ -11,7 +11,11 @@ export default ({ adicionar, handleInputChange, usuarios, listaFilial, listaCCus
                 value={usuarios.loginUsuario} />
             <div className="input-group-append" id="button-addon4">
                 {/* <button className="btn btn-outline-secondary" type="button">Cadastrar</button> */}
-                <button className="btn btn-outline-secondary" type="button">Pesquisar</button>
+                <button className="btn btn-outline-secondary" type="button" onClick={handleSearch}>Pesquisar</button>
+            </div>
+            <div className="input-group-append" id="button-addon4">
+                {/* <button className="btn btn-outline-secondary" type="button">Cadastrar</button> */}
+                <button className="btn btn-outline-secondary" type="button" onClick={handleClear}>Limpa Pesquisa</button>
             </div>
         </div>
 
@@ -41,7 +45,7 @@ export default ({ adicionar, handleInputChange, usuarios, listaFilial, listaCCus
         </div>
         
         <input type="submit" className='btn btn-primary' value='Salvar'/>
-        <button type="button" className='btn btn-primary ml-4'>Voltar</button>
+            <button type="button" className='btn btn-primary ml-4' onClick={handleClear}>Voltar</button>
     </form>
 )
 
