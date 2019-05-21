@@ -20,7 +20,7 @@ export default props => (
                         <li className="nav-item"><Link to='/ccusto' className='nav-link'>Centro de Custo</Link></li>
                         <li className="nav-item"><Link to='/usuarios' className='nav-link'>Usuários</Link></li>
                         <li className="nav-item"><Link to='/tipoInventario' className='nav-link'>Tipo de Inventário</Link></li>
-                        <li className="nav-item"><Link to='/fornecedor' className='nav-link'>Fornecedor</Link></li>
+                        <li className="nav-item"><Link to='/fornecedores' className='nav-link'>Fornecedor</Link></li>
                         <li className="nav-item"><Link to='/inventarios' className='nav-link'>Inventários</Link></li>
                         <li className="nav-item"><Link to='/manutencao' className='nav-link'>Equip.Manutenção</Link></li>
                         <li className="nav-item"><Link to='/transferencia' className='nav-link'>Transf. Equipamentos</Link></li>
