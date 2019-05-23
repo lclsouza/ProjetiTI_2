@@ -1,7 +1,7 @@
 import React from 'react'
 import InputCustomizado from '.././components/InputCustomizado'
 
-export default ({ handleAdd, handleInputChange, handleInputChange2, handleSearch, fornecedores, fornecedores2, handleClear }) => (
+export default ({ handleAdd, handleInputChange, handleSearch, fornecedores, fornecedores2, handleClear }) => (
     <form className='cadastro-form' onSubmit={handleAdd}>
         <h2 className='h2'>Cadastro de Fornecedores</h2>
         <div id='mensagemView'></div>
@@ -59,20 +59,20 @@ export default ({ handleAdd, handleInputChange, handleInputChange2, handleSearch
         </div>
 
         <div className='form-check form-check-inline'>
+   
             <input className="form-check-input" type="checkbox" id="hardware" 
-                    onChange={handleInputChange2} name="hardware"
-                     checked={fornecedores2.hardware}
-                      />
-            <label className="form-check-label" htmlFor="inlineCheckbox1">Hardware</label>
+                    onChange={handleInputChange} name="hardware"
+                     checked={fornecedores.tiposServicos.hardware}/>
+            <label className="form-check-label" htmlFor="hardware">Hardware</label>
         </div>
 
         <div className="form-check form-check-inline">
-            <input className="form-check-input" type="checkbox" id="fornecedores.tiposServicos.software" 
+            <input className="form-check-input" type="checkbox" id="software" 
                         onChange={handleInputChange} name="software"
-                        value={fornecedores2.software} />
-            <label className="form-check-label" htmlFor="inlineCheckbox1">Software</label>
+                        checked={fornecedores.tiposServicos.software} />
+            <label className="form-check-label" htmlFor="software">Software</label>
         </div>
-
+    {/*
         <div className="form-check form-check-inline">
             <input className="form-check-input" type="checkbox" id="fornecedores.tiposServicos.rede" 
                         onChange={handleInputChange} name="rede"
@@ -113,7 +113,7 @@ export default ({ handleAdd, handleInputChange, handleInputChange2, handleSearch
                         onChange={handleInputChange} name="internet"
                         value={fornecedores2.internet} />
             <label className="form-check-label" htmlFor="inlineCheckbox1">Internet</label>
-        </div>
+        </div> */}
 
         <p></p>
         

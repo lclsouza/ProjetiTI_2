@@ -16,41 +16,42 @@ export default class AppFornecedores extends Component {
             fornecedores: {
                 codigoFornecedor: '',
                 nomeFornecedor: '',
+                contato: '',
                 telefone: '',
                 email: '',
                 observacao: '',
                 tiposServicos: {
                     hardware: false,
-                    rede: false,
-                    smartphone: false,
-                    telefonia: false,
-                    servidor: false,
-                    infraestrutura: false,
-                    iphone: false,
-                    internet: false
+                    software: false,
+                    rede: '',
+                    smartphone: '',
+                    telefonia: '',
+                    servidor: '',
+                    infraestrutura: '',
+                    iphone: '',
+                    internet: ''
                 }
             },
             list: []
         }
 
         this.handleInputChange = this.handleInputChange.bind(this)
-        this.handleInputChange2 = this.handleInputChange2.bind(this)
         this.handleAdd = this.handleAdd.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.handleSearch = this.handleSearch.bind(this)
         this.handleClear = this.handleClear.bind(this)
+        this._fornecedores = this.state.fornecedores
         this._id = ''
         this.refresh()
     }
 
-    refresh(nomeFornecedor='') {
-        let fornecedores = this.state.fornecedores
-        //let tiposServicos = this.state.fornecedores.tiposServicos
+    refresh(nomeF='') {
+        let fornecedores = this._fornecedores
+    
+        let regex = new RegExp(nomeF, 'i')
 
-        let regex = new RegExp(nomeFornecedor, 'i')
-
-        if (nomeFornecedor.length > 0) {
+        if (nomeF.length > 0) {
             axios.get(`${URLFornecedores}`)
                 .then(resp => resp.data.filter(c => c.fornecedores.nomeFornecedor.match(regex)))
                 .then(resp => this.setState({...this.state, list: resp}))
@@ -69,46 +70,35 @@ export default class AppFornecedores extends Component {
         // Copia todas as propriedades do estado (this.state.filial) para o objeto {} (filial)
         let fornecedores = Object.assign({}, this.state.fornecedores);
         // posiciona no objeto.name e pega o valor do objeto.value
-        fornecedores[e.target.name] = e.target.value;
-        // Altera o estado com a nova informação digitada
+        if (e.target.type === 'checkbox') {
+            //fornecedores.tiposServicos = Object.assign({}, this.state.fornecedores.tiposServicos)
+            fornecedores.tiposServicos[e.target.name] = e.target.checked
+        } else {
+            fornecedores[e.target.name] = e.target.value;
+        }
+ 
         this.setState({fornecedores})
-
-        // atualizar o estado quando o atributo não for um objeto
-        // this.setState({...this.state, [e.target.name] : e.target.value })
-    }
-
-    handleInputChange2(e) {
-
-        // Copia todas as propriedades do estado (this.state.filial) para o objeto {} (filial)
-        let tiposServicos = Object.assign({}, this.state.fornecedores.tiposServicos);
-        // posiciona no objeto.name e pega o valor do objeto.value
-        tiposServicos[e.target.name] = e.target.checked;
-
-
-        // Altera o estado com a nova informação digitada
-        this.setState({fornecedores:{tiposServicos}})
-
-        // atualizar o estado quando o atributo não for um objeto
-        // this.setState({...this.state, [e.target.name] : e.target.value })
 
     }
 
     handleAdd(e) {
         e.preventDefault()
         const fornecedores = this.state.fornecedores
-        const tiposServicos = this.state.fornecedores.tiposServicos
 
         if (fornecedores.codigoFornecedor.length !== 0 || fornecedores.nomeFornecedor.length !== 0 ||
             fornecedores.telefone.length !== 0 || fornecedores.email.length !== 0 || 
             fornecedores.observacao.length !== 0) {
 
             if (this._id.length === 0) {
-                axios.post(URLFornecedores, { fornecedores})
+                axios.post(URLFornecedores, { fornecedores })
+                .then(resp => {
                     window.scrollTo({top:0,behavior: 'smooth'})
                     this.refresh()
                     Mensagem('Fornecedor adicionado com sucesso !!!')
+                })
+                    
             } else {
-                axios.put(URLFornecedores, { fornecedores:{ tiposServicos } })
+                axios.put(`${URLFornecedores}/${this._id}`, { fornecedores })
                     .then(resp => {
                         this._id = ''
                         this.refresh(this.state.fornecedores.nomeFornecedor)
@@ -137,11 +127,15 @@ export default class AppFornecedores extends Component {
         
         this._id = fornecedoresReg._id
         axios.get(`${URLFornecedores}/${this._id}`)
-            .then(resp => this.setState({...this.state, 
-                    fornecedores: resp.data[0].fornecedores,
-                    tiposServicos: resp.data[0].fornecedores.tiposServicos}))
+            // .then(resp => resp.data)
+            // .then(resp => [resp[0].fornecedores])
+            // .then(resp => console.log(resp))
+//            .then(resp => resp.reduce((arrayA, a) => arrayA.concat(a.tiposServicos), []))
+//            .then(resp => console.log(resp))
+           .then(resp => this.setState({...this.state, 
+                   fornecedores: resp.data[0].fornecedores,
+                   tiposServicos: resp.data[0].fornecedores.tiposServicos}))
         window.scrollTo({top:0,behavior: 'smooth'})
-    
     }
 
     handleSearch() {
@@ -159,14 +153,12 @@ export default class AppFornecedores extends Component {
             <div>
                 <CadastroFornecedores handleAdd={this.handleAdd} 
                                 handleInputChange={this.handleInputChange} 
-                                handleInputChange2={this.handleInputChange2} 
                                 handleSearch={this.handleSearch}
                                 fornecedores={this.state.fornecedores}
-                                fornecedores2={this.state.fornecedores.tiposServicos}
                                 handleClear={this.handleClear} />
-                {!!this.state.list && <ListaFornecedores fornecedores={this.state.list} 
+                <ListaFornecedores fornecedor={this.state.list} 
                              handleDelete={this.handleDelete}
-                             handleChange={this.handleChange} />}
+                             handleChange={this.handleChange} />
             </div>
         )
     }

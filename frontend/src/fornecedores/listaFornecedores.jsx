@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default ({ fornecedores, handleDelete, handleChange }) => {
+export default ({ fornecedor, handleDelete, handleChange }) => {
 
     const renderRows = () => {
-        return fornecedores.map((fornecedoresReg, index) => (
+        return fornecedor.map((fornecedoresReg, index) => (
             
                 <tr key={index}>
                     <td>{fornecedoresReg.fornecedores.codigoFornecedor}</td>
