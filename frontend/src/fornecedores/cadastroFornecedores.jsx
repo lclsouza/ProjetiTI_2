@@ -72,48 +72,49 @@ export default ({ handleAdd, handleInputChange, handleSearch, fornecedores, forn
                         checked={fornecedores.tiposServicos.software} />
             <label className="form-check-label" htmlFor="software">Software</label>
         </div>
-    {/*
+    
         <div className="form-check form-check-inline">
-            <input className="form-check-input" type="checkbox" id="fornecedores.tiposServicos.rede" 
+            <input className="form-check-input" type="checkbox" id="rede" 
                         onChange={handleInputChange} name="rede"
-                        value={fornecedores2.rede} />
-            <label className="form-check-label" htmlFor="inlineCheckbox1">Rede</label>
+                        checked={fornecedores.tiposServicos.rede} />
+            <label className="form-check-label" htmlFor="rede">Rede</label>
         </div>
-
+    
+   
         <div className="form-check form-check-inline">
-            <input className="form-check-input" type="checkbox" id="fornecedores.tiposServicos.smartphone" 
+            <input className="form-check-input" type="checkbox" id="smartphone" 
                         onChange={handleInputChange} name="smartphone"
-                        value={fornecedores2.smartphone} />
-            <label className="form-check-label" htmlFor="inlineCheckbox1">Smartphone</label>
+                        checked={fornecedores.tiposServicos.smartphone} />
+            <label className="form-check-label" htmlFor="smartphone">Smartphone</label>
         </div>
 
         <div className="form-check form-check-inline">
-            <input className="form-check-input" type="checkbox" id="fornecedores.tiposServicos.telefonia" 
+            <input className="form-check-input" type="checkbox" id="telefonia" 
                         onChange={handleInputChange} name="telefonia"
-                        value={fornecedores2.telefonia} />
-            <label className="form-check-label" htmlFor="inlineCheckbox1">Telefonia</label>
+                        checked={fornecedores.tiposServicos.telefonia} />
+            <label className="form-check-label" htmlFor="telefonia">Telefonia</label>
         </div>
 
         <div className="form-check form-check-inline">
-            <input className="form-check-input" type="checkbox" id="fornecedores.tiposServicos.servidor" 
+            <input className="form-check-input" type="checkbox" id="servidor" 
                         onChange={handleInputChange} name="servidor"
-                        value={fornecedores2.servidor} />
-            <label className="form-check-label" htmlFor="inlineCheckbox1">Servidor</label>
+                        checked={fornecedores.tiposServicos.servidor} />
+            <label className="form-check-label" htmlFor="servidor">Servidor</label>
         </div>
 
         <div className="form-check form-check-inline">
-            <input className="form-check-input" type="checkbox" id="fornecedores.tiposServicos.infraestrutura" 
+            <input className="form-check-input" type="checkbox" id="infraestrutura" 
                         onChange={handleInputChange} name="infraestrutura"
-                        value={fornecedores2.infraestrutura} />
-            <label className="form-check-label" htmlFor="inlineCheckbox1">Infraestrutura</label>
+                        checked={fornecedores.tiposServicos.infraestrutura} />
+            <label className="form-check-label" htmlFor="infraestrutura">Infraestrutura</label>
         </div>
 
-        <div className="form-check form-check-inline">
-            <input className="form-check-input" type="checkbox" id="fornecedores.tiposServicos.internet" 
+       <div className="form-check form-check-inline">
+            <input className="form-check-input" type="checkbox" id="internet" 
                         onChange={handleInputChange} name="internet"
-                        value={fornecedores2.internet} />
-            <label className="form-check-label" htmlFor="inlineCheckbox1">Internet</label>
-        </div> */}
+                        checked={fornecedores.tiposServicos.internet} />
+            <label className="form-check-label" htmlFor="internet">Internet</label>
+        </div>
 
         <p></p>
         
