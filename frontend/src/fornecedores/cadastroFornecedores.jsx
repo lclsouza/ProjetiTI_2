@@ -1,7 +1,7 @@
 import React from 'react'
 import InputCustomizado from '.././components/InputCustomizado'
 
-export default ({ handleAdd, handleInputChange, handleSearch, fornecedores, fornecedores2, handleClear }) => (
+export default ({ handleAdd, handleInputChange, handleSearch, fornecedores, handleClear }) => (
     <form className='cadastro-form' onSubmit={handleAdd}>
         <h2 className='h2'>Cadastro de Fornecedores</h2>
         <div id='mensagemView'></div>
@@ -29,35 +29,67 @@ export default ({ handleAdd, handleInputChange, handleSearch, fornecedores, forn
         </div>
 
         <div className='form-group'>
-            <input id='contato' className='form-control'
-                placeholder='Digite o contato'
-                onChange={handleInputChange}
-                name="contato"
-                value={fornecedores.contato} />
-        </div>
-
-        <div className='form-group'>
             <input id='telefone' className='form-control'
                 placeholder='Digite o Telefone'
                 onChange={handleInputChange}
                 name="telefone"
                 value={fornecedores.telefone} />
         </div>
-        <div className='form-group'>
-            <input id='email' className='form-control'
-                placeholder='Digite o e-mail'
+
+        <div class="form-group">
+            <select class="form-control" id="tipoPessoa"
                 onChange={handleInputChange}
-                name="email"
-                value={fornecedores.email} />
-        </div>
-        <div className='form-group'>
-            <input id='observacao' className='form-control'
-                placeholder='Digite uma Observacao'
-                onChange={handleInputChange}
-                name="observacao"
-                value={fornecedores.observacao} />
+                name="tipoPessoa"
+                value={fornecedores.tipoPessoa} >
+                <option value='' disabled>
+                    Tipo de Pessoa
+                </option>
+                <option>CI - Comércio/Indústria</option>
+                <option>PF - Pessoa Física</option>
+                <option>OS - Prestação de Serviço</option>
+            </select>    
         </div>
 
+    
+        <div className="form-group">
+            {/* <label htmlFor="exampleFormControlTextarea1">/label> */}
+            <textarea className="form-control" id="observacao" name='observacao'rows="3"
+                         onChange={handleInputChange} value={fornecedores.observacao}
+                         placeholder='Digite uma observação'>
+            </textarea>
+        </div>
+
+        <label className='mx-2'>Qualificação: </label>
+
+        <div className="form-check form-check-inline">
+            <input className="form-check-input" type="radio" name="classificacao" id="otimo" 
+                    value='otimo'  checked={fornecedores.classificacao === 'otimo'} onChange={handleInputChange} />
+            <label className="form-check-label" htmlFor="otimo">Ótimo</label>
+        </div>
+
+        <div className="form-check form-check-inline">
+            <input className="form-check-input" type="radio" name="classificacao" id="bom" 
+                    value='bom'   checked={fornecedores.classificacao === 'bom'} onChange={handleInputChange}/>
+            <label className="form-check-label" htmlFor="bom">Bom</label>
+        </div>
+
+        <div className="form-check form-check-inline">
+            <input className="form-check-input" type="radio" name="classificacao" id="regular" 
+                     onChange={handleInputChange} checked={fornecedores.classificacao === 'regular'} 
+                     value='regular'  />
+            <label className="form-check-label" htmlFor="regular">Regular</label>
+        </div>
+
+        <div className="form-check form-check-inline">
+            <input className="form-check-input" type="radio" name="classificacao" id="pessimo" 
+                value='pessimo'  checked={fornecedores.classificacao === 'pessimo'}
+                 onChange={handleInputChange} />
+            <label className="form-check-label" htmlFor="pessimo">Pessimo</label>
+        </div>
+
+        <p></p>
+        
+        <label className='mx-2'>Especialização: </label>
         <div className='form-check form-check-inline'>
    
             <input className="form-check-input" type="checkbox" id="hardware" 

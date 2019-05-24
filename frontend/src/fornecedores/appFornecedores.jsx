@@ -16,20 +16,19 @@ export default class AppFornecedores extends Component {
             fornecedores: {
                 codigoFornecedor: '',
                 nomeFornecedor: '',
-                contato: '',
                 telefone: '',
-                email: '',
                 observacao: '',
+                classificacao: '',
                 tiposServicos: {
                     hardware: false,
                     software: false,
-                    rede: '',
-                    smartphone: '',
-                    telefonia: '',
-                    servidor: '',
-                    infraestrutura: '',
-                    iphone: '',
-                    internet: ''
+                    rede: false,
+                    smartphone: false,
+                    telefonia: false,
+                    servidor: false,
+                    infraestrutura: false,
+                    iphone: false,
+                    internet: false
                 }
             },
             list: []
@@ -47,8 +46,7 @@ export default class AppFornecedores extends Component {
     }
 
     refresh(nomeF='') {
-        let fornecedores = this._fornecedores
-    
+
         let regex = new RegExp(nomeF, 'i')
 
         if (nomeF.length > 0) {
@@ -59,8 +57,27 @@ export default class AppFornecedores extends Component {
         } else {        
             axios.get(URLFornecedores)
             .then(resp => this.setState({...this.state,
-                    fornecedores,
-                list: resp.data}))
+                fornecedores: {
+                    codigoFornecedor: '',
+                    nomeFornecedor: '',
+                    telefone: '',
+                    tipoPessoa: '',
+                    observacao: '',
+                    classificacao: '',
+                    tiposServicos: {
+                        hardware: false,
+                        software: false,
+                        rede: false,
+                        smartphone: false,
+                        telefonia: false,
+                        servidor: false,
+                        infraestrutura: false,
+                        iphone: false,
+                        internet: false
+                    },
+                
+            },
+            list: resp.data}))
         }
     }
 
@@ -69,10 +86,13 @@ export default class AppFornecedores extends Component {
 
         // Copia todas as propriedades do estado (this.state.filial) para o objeto {} (filial)
         let fornecedores = Object.assign({}, this.state.fornecedores);
+
         // posiciona no objeto.name e pega o valor do objeto.value
         if (e.target.type === 'checkbox') {
             //fornecedores.tiposServicos = Object.assign({}, this.state.fornecedores.tiposServicos)
             fornecedores.tiposServicos[e.target.name] = e.target.checked
+        } else if (e.target.type === 'radio') {
+            fornecedores[e.target.name] = e.target.value;
         } else {
             fornecedores[e.target.name] = e.target.value;
         }
@@ -127,11 +147,6 @@ export default class AppFornecedores extends Component {
         
         this._id = fornecedoresReg._id
         axios.get(`${URLFornecedores}/${this._id}`)
-            // .then(resp => resp.data)
-            // .then(resp => [resp[0].fornecedores])
-            // .then(resp => console.log(resp))
-//            .then(resp => resp.reduce((arrayA, a) => arrayA.concat(a.tiposServicos), []))
-//            .then(resp => console.log(resp))
            .then(resp => this.setState({...this.state, 
                    fornecedores: resp.data[0].fornecedores,
                    tiposServicos: resp.data[0].fornecedores.tiposServicos}))

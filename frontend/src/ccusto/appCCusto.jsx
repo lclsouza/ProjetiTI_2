@@ -34,7 +34,6 @@ export default class AppCCusto extends Component {
 
     refresh(codigo_ccusto='') {
        
-        console.log(codigo_ccusto)
         let regex = new RegExp(codigo_ccusto, 'i')
 
         if (codigo_ccusto.length > 0) {

@@ -8,9 +8,7 @@ export default ({ fornecedor, handleDelete, handleChange }) => {
                 <tr key={index}>
                     <td>{fornecedoresReg.fornecedores.codigoFornecedor}</td>
                     <td>{fornecedoresReg.fornecedores.nomeFornecedor}</td>
-                    <td>{fornecedoresReg.fornecedores.contato}</td>
                      <td>{fornecedoresReg.fornecedores.telefone}</td>
-                     <td>{fornecedoresReg.fornecedores.email}</td>
                      <td>{fornecedoresReg.fornecedores.observacao}</td>
                     <td> 
                         <button onClick={() => handleDelete(fornecedoresReg)}>Excluir</button> 
@@ -26,9 +24,7 @@ export default ({ fornecedor, handleDelete, handleChange }) => {
                 <tr>
                     <th>Código Fornecedor</th>
                     <th>Nome Fornecedor</th>
-                    <th>Contato</th>
                     <th>Telefone</th>
-                    <th>Email</th>
                     <th>Observacao</th>                    
                     <th>Ações</th>
                 </tr>
