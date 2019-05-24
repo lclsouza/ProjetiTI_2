@@ -52,7 +52,6 @@ export default ({ handleAdd, handleInputChange, handleSearch, fornecedores, hand
 
     
         <div className="form-group">
-            {/* <label htmlFor="exampleFormControlTextarea1">/label> */}
             <textarea className="form-control" id="observacao" name='observacao'rows="3"
                          onChange={handleInputChange} value={fornecedores.observacao}
                          placeholder='Digite uma observação'>

@@ -87,18 +87,15 @@ export default class AppFornecedores extends Component {
         // Copia todas as propriedades do estado (this.state.filial) para o objeto {} (filial)
         let fornecedores = Object.assign({}, this.state.fornecedores);
 
-        // posiciona no objeto.name e pega o valor do objeto.value
         if (e.target.type === 'checkbox') {
-            //fornecedores.tiposServicos = Object.assign({}, this.state.fornecedores.tiposServicos)
             fornecedores.tiposServicos[e.target.name] = e.target.checked
-        } else if (e.target.type === 'radio') {
-            fornecedores[e.target.name] = e.target.value;
+        // } else if (e.target.type === 'radio') {
+        //     fornecedores[e.target.name] = e.target.value;
         } else {
             fornecedores[e.target.name] = e.target.value;
         }
  
         this.setState({fornecedores})
-
     }
 
     handleAdd(e) {
